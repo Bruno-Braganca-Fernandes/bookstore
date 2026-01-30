@@ -21,9 +21,9 @@ class CategoryViewSet(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         category_data = json.loads(response.content)
-        print(category_data[0])
+        print(category_data['results'][0]['name'])
 
-        self.assertEqual(category_data[0]["name"], self.category.name)
+        self.assertEqual(category_data['results'][0]["name"], self.category.name)
 
     def test_create_category(self):
         data = json.dumps({"name": "technology"})
