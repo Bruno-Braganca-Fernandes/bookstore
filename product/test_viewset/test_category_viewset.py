@@ -9,7 +9,7 @@ from product.models import Category
 import pytest
 
 @pytest.mark.django_db
-class CategoryViewSet(APITestCase):
+class TestCategoryViewSet(APITestCase):
     client = APIClient()
 
     def setUp(self):
@@ -21,7 +21,6 @@ class CategoryViewSet(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         category_data = json.loads(response.content)
-        print(category_data['results'][0]['name'])
 
         self.assertEqual(category_data['results'][0]["name"], self.category.name)
 
