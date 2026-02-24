@@ -6,7 +6,7 @@ authors = [
     {name = "Bruno-Braganca-Fernandes",email = "bruno.b.fernandes12@hotmail.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.14"
+requires-python = ">=3.12,<3.14"
 dependencies = [
     "django (>=6.0.1,<7.0.0)",
     "djangorestframework (>=3.16.1,<4.0.0)",
