@@ -35,7 +35,9 @@ jobs:
           pip install poetry
 
       - name: Install dependencies
-        run: poetry install --with dev
+        run: |
+          poetry install
+          poetry run pip install factory-boy pytest-django pytest
 
       - name: Run Tests
         env:
