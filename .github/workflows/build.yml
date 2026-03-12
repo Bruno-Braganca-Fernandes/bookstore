@@ -1,0 +1,53 @@
+name: Python application
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: dev
+          POSTGRES_PASSWORD: dev
+          POSTGRES_DB: bookstore_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install poetry
+        run: |
+          python -m pip install --upgrade pip
+          pip install poetry
+
+      - name: Install dependencies
+        run: |
+          poetry install
+          poetry run pip install factory-boy pytest-django pytest
+
+      - name: Run Tests
+        env:
+          DEBUG: 1
+          SECRET_KEY: foo
+          DJANGO_ALLOWED_HOSTS: localhost 127.0.0.1 [::1]
+          SQL_DATABASE: bookstore_db
+          SQL_USER: dev
+          SQL_PASSWORD: dev
+          SQL_HOST: localhost
+          SQL_PORT: 5432
+        run: |
+          poetry run python manage.py test
