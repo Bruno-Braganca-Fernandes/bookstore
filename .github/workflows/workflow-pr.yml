@@ -26,6 +26,15 @@ jobs:
         run: python -m poetry install
 
       - name: Test
+        env:
+          DEBUG: 1
+          SECRET_KEY: foo
+          DJANGO_ALLOWED_HOSTS: localhost 127.0.0.1 [::1]
+          SQL_DATABASE: bookstore_db
+          SQL_USER: dev
+          SQL_PASSWORD: dev
+          SQL_HOST: localhost
+          SQL_PORT: 5432
         run: |
           poetry run python manage.py test
       - name: Wemake Python Stylguide
