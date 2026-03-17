@@ -1,0 +1,25 @@
+name: Continuous Delivery (PythonAnywhere)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Reload PythonAnywhere Web App
+
+        env:
+          PA_USERNAME: ${{ secrets.PA_USERNAME }}
+          PA_TOKEN: ${{ secrets.PA_TOKEN }}
+        run: |
+          echo "Disparando o recarregamento do servidor PythonAnywhere..."
+          curl -X POST "https://www.pythonanywhere.com/api/v0/user/$PA_USERNAME/webapps/$PA_USERNAME.pythonanywhere.com/reload/" \
+          -H "Authorization: Token $PA_TOKEN"
